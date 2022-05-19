@@ -42,5 +42,4 @@ func compareCards(cardOneVal int, cardOneSuit int, cardTwoVal int, cardTwoSuit i
 }
 
 func main () {
-	fmt.Println(compareCards(42, 4, 4, 4))
 }
