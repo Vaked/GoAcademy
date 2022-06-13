@@ -45,5 +45,5 @@ func main() {
 	cp := &ConcurrentPrinter{}
 	cp.printFoo(times)
 	cp.printBar(times)
-	cp.Wait()
+	cp.wg.Wait()
 }
