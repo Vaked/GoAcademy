@@ -35,16 +35,15 @@ func sumCardAndSuit(card Card) int {
 }
 
 func maxCard(cards []Card) Card {
-	var maxCard = Card {0, 0}
+	var maxCard = cards[0]
 	for idx, card := range cards {
-		if compareCards(maxCard, card) > 0 {
+		if compareCards(maxCard, card) != 0 {
 			maxCard = cards[idx]
 		}
 	}
 	return maxCard
 
 }
-
 
 func compareCards(cardOne Card, cardTwo Card) int {
 	if checkCard(cardOne) == false || checkCard(cardTwo) == false {
@@ -55,22 +54,20 @@ func compareCards(cardOne Card, cardTwo Card) int {
 	secondHandSum := sumCardAndSuit(cardTwo)
 
 	if secondHandSum > firstHandSum {
-		fmt.Println("Second hand is bigger")
 		return -1
 	} else if firstHandSum > secondHandSum {
-		fmt.Println("First hand is bigger")
 		return 1
 	} else {
-		fmt.Println("The hands are equal")
 		return 0
 	}
 }
 
-
-
 func main() {
 	var firstHand = Card {4, 4}
-	var secondHand = Card{ 12, 2}
+	var secondHand = Card{12, 2}
+	var cards []Card
+	cards = append(cards, firstHand)
+	cards = append(cards, secondHand)
 
-	compareCards(firstHand, secondHand)
+	fmt.Println(maxCard(cards))
 }
