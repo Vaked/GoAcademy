@@ -6,35 +6,35 @@ import (
 )
 
 type ConcurrentPrinter struct {
-	wg sync.WaitGroup
-	mu sync.Mutex
+	sync.WaitGroup
+	sync.Mutex
 }
 
 func (cp *ConcurrentPrinter) printFoo(times int) {
-	cp.wg.Add(1)
+	cp.Add(1)
 	go func() {
-		defer cp.wg.Done()
+		defer cp.Done()
 		for i := 0; i < times; i++ {
-			cp.mu.Lock()
+			cp.Lock()
 			if i%2 == 0 {
 				fmt.Print("foo")
 			}
-			cp.mu.Unlock()
+			cp.Unlock()
 			time.Sleep(time.Millisecond)
 		}
 	}()
 }
 
 func (cp *ConcurrentPrinter) printBar(times int) {
-	cp.wg.Add(1)
+	cp.Add(1)
 	go func() {
-		defer cp.wg.Done()
+		defer cp.Done()
 		for i := 0; i < times; i++ {
-			cp.mu.Lock()
+			cp.Lock()
 			if i%2 != 0 {
 				fmt.Print("bar")
 			}
-			cp.mu.Unlock()
+			cp.Unlock()
 			time.Sleep(time.Millisecond)
 		}
 	}()
@@ -45,5 +45,5 @@ func main() {
 	cp := &ConcurrentPrinter{}
 	cp.printFoo(times)
 	cp.printBar(times)
-	cp.wg.Wait()
+	cp.Wait()
 }
