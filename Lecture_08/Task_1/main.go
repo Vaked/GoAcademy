@@ -10,7 +10,5 @@ func main() {
 
 	deck := &cardgame.Deck{}
 	deck.New()
-	result, err := carddraw.DrawAllCards(deck)
-
-	fmt.Println()
+	fmt.Println(carddraw.DrawAllCards(deck))
 }
