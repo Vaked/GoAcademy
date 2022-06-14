@@ -8,7 +8,7 @@ interface, called Done() bool. Return true, if the Deck's internal
 pool of cards is empty.
 
 To make things interesting, carddraw.drawAllCards must also
-return both []cardgame.Card, and an error. Since we want to
+return bothd []cardgame.Car, and an error. Since we want to
 pretend that carddraw and cardgame don't know about it each
 other, if an error occurs, first check if the dealer is Done() and if
 yes, simply return the drawn cards, and a nil error. Otherwise, do

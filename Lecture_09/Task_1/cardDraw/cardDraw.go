@@ -2,6 +2,7 @@ package carddraw
 
 import (
 	cardgame "cards/cardgame"
+	"fmt"
 )
 
 type dealer interface {
@@ -10,19 +11,22 @@ type dealer interface {
 }
 
 func DrawAllCards(dealer dealer) ([]cardgame.Card, error) {
-	var newDeck []cardgame.Card
+	var newDeck cardgame.Deck
+	newDeck.New()
 	
-	if dealer.Done(){
-		return newDeck, nil
-	}
 
-	for {
-		card, err := dealer.Deal()
+	fmt.Println(newDeck)
+	// if dealer.Done(){
+	// 	return newDeck, nil
+	// }
 
-		if card != nil {
-			newDeck = append(newDeck, *card)
-		} else {
-			return newDeck, err
-		}
-	}
+	// for {
+	// 	card, err := dealer.Deal()
+
+	// 	if card != nil {
+	// 		newDeck = append(newDeck, *card)
+	// 	} else {
+	// 		return newDeck, err
+	// 	}
+	// }
 }
