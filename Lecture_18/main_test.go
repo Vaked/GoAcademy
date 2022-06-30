@@ -6,25 +6,38 @@ import (
 )
 
 func Benchmark100PrimesWith0MSSleep(b *testing.B){
-	fmt.Println(primesAndSleep(100,0))
+	for i := 0; i < b.N; i++{
+		fmt.Println(primesAndSleep(100,0))
+	}
+	
 }
 
 func Benchmark100PrimesWith5MSSleep(b *testing.B){
-	fmt.Println(primesAndSleep(100,5))
+	for i := 0; i < b.N; i++{
+		fmt.Println(primesAndSleep(100,5))
+	}
 }
 
 func Benchmark100PrimesWith10MSSleep(b *testing.B){
-	fmt.Println(primesAndSleep(100,10))
+	for i := 0; i < b.N; i++{
+		fmt.Println(primesAndSleep(100,10))
+	}
 }
 
 func Benchmark100GoPrimesWith0MSSleep(b *testing.B){
-	fmt.Println(primesAndSleepGo(100,0))
+	for i := 0; i < b.N; i++{
+		fmt.Println(primesAndSleepGo(100,0))
+	}
 }
 
 func Benchmark100GoPrimesWith5MSSleep(b *testing.B){
-	fmt.Println(primesAndSleepGo(100,5))
+	for i := 0; i < b.N; i++{
+		fmt.Println(primesAndSleepGo(100,5))
+	}
 }
 
 func Benchmark100GoPrimesWith10MSSleep(b *testing.B){
-	fmt.Println(primesAndSleepGo(100,10))
+	for i := 0; i < b.N; i++{
+		fmt.Println(primesAndSleepGo(100,10))
+	}
 }
