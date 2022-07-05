@@ -10,22 +10,22 @@ import (
 	"time"
 )
 
-type BartenderBot struct{
-	Drinks []Drinks
-}
+// type BartenderBot struct{
+// 	Drinks []Drinks
+// }
 
-type Drinks struct {
-	ID string `json:"idDrink"`
-	Drink string `json:"strDrink"`
-	StrDrinkAlternate string `json:"strDrinkAlternate"`
-	StrTags string `json:"strTags"`
-	StrVideo string `json:"strVideo"`
-	StrAlcoholic string `json:"strAlcoholic"`
-	StrGlass string `json:"strGlass"`
-	StrInstructions string `json:"strInstructions"`
-}
+// type Drinks struct {
+// 	ID string `json:"idDrink"`
+// 	Drink string `json:"strDrink"`
+// 	StrDrinkAlternate string `json:"strDrinkAlternate"`
+// 	StrTags string `json:"strTags"`
+// 	StrVideo string `json:"strVideo"`
+// 	StrAlcoholic string `json:"strAlcoholic"`
+// 	StrGlass string `json:"strGlass"`
+// 	StrInstructions string `json:"strInstructions"`
+// }
 
-func main() {
+func a() {
 	url := "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita"
 
 	drinksClient := http.Client{

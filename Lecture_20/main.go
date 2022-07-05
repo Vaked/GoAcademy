@@ -1,84 +1,117 @@
-// package main
+package main
 
-// import (
-// 	"bufio"
-// 	"encoding/json"
-// 	"fmt"
-// 	"io/ioutil"
-// 	"log"
-// 	"net/http"
-// 	"os"
+import (
+	"bufio"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/url"
+	"os"
+	"strings"
+	"time"
+)
 
-// 	//"strings"
-// 	"time"
-// )
+type BartenderBot struct{
+	Drinks []Drinks
+}
 
-// type BartenderBot struct{
-// 	recipe string `json"recipe"`
-// }
+type Drinks struct {
+	ID string `json:"idDrink"`
+	Drink string `json:"strDrink"`
+	StrDrinkAlternate string `json:"strDrinkAlternate"`
+	StrTags string `json:"strTags"`
+	StrVideo string `json:"strVideo"`
+	StrAlcoholic string `json:"strAlcoholic"`
+	StrGlass string `json:"strGlass"`
+	StrInstructions string `json:"strInstructions"`
+}
+func NewBartenderBot() *BartenderBot{
+	return &BartenderBot{}
+}
 
-// func NewBartenderBot() *BartenderBot{
-// 	return &BartenderBot{}
-// }
+func GetUserInput() string{
+	fmt.Println("Please enter what you would like to drink: ")
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Error while reading input.")
+		return ""
+	}
+	input = strings.TrimRight(input, "\r\n")
 
-// func GetUserInput() string{
-// 	fmt.Println("Please enter what you would like to drink: ")
-// 	reader := bufio.NewReader(os.Stdin)
-// 	input, err := reader.ReadString('\n')
-// 	if err != nil {
-// 		fmt.Println("Error while reading input.")
-// 		return ""
-// 	}
-// 	return input
-// }
+	return input
+}
 
-// func GetResultFromDrinksApi(drink string) {
-// 	url := "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita"
+func SetUrl(querryString string) *url.URL{
+	url, err := url.Parse("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=")
+	if err != nil{
+		log.Fatal("Url format is invalid")
+	}
 
-// 	drinksClient := http.Client{
-// 		Timeout: time.Second * 2,
-// 	}
+	querry := url.Query()
+	querry.Add("s", querryString)
+	url.RawQuery = querry.Encode()
 
-// 	req, err := http.NewRequest(http.MethodGet, url, nil)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
+	return url
+}
 
-// 	res, getErr := drinksClient.Do(req)
-// 	if getErr != nil{
-// 		log.Fatal(getErr)
-// 	}
+func GetResultFromDrinksApi(drink *url.URL) {
+	drinksClient := http.Client{
+		Timeout: time.Second * 2,
+	}
 
-// 	if res.Body != nil{
-// 		defer res.Body.Close()
-// 	}
+	req, err := http.NewRequest(http.MethodGet, drink.String(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-// 	body, readErr := ioutil.ReadAll(res.Body)
-// 	if readErr != nil{
-// 		log.Fatal(readErr)
-// 	}
+	res, getErr := drinksClient.Do(req)
+	if getErr != nil{
+		log.Fatal(getErr)
+	}
 
-// 	bot := NewBartenderBot()
-// 	jsonErr := json.Unmarshal(body, &bot)
+	if res.Body != nil{
+		defer res.Body.Close()
+	}
 
-// 	if jsonErr != nil {
-// 		log.Fatal(jsonErr)
-// 	}
+	body, readErr := ioutil.ReadAll(res.Body)
+	if readErr != nil{
+		log.Fatal(readErr)
+	}
 
-// 	fmt.Println(bot.recipe)
+	bot := NewBartenderBot()
+	jsonErr := json.Unmarshal(body, &bot)
 
-// }
+	if jsonErr != nil {
+		log.Fatal(jsonErr)
+	}
 
-// func (b *BartenderBot) Start() {
-// 	prefferedDrink := GetUserInput()
+	SplitAndPrintRecipe(bot.Drinks[0].StrInstructions)
+}
 
-// 	GetResultFromDrinksApi(prefferedDrink)
+func SplitAndPrintRecipe(recpe string) {
+	sentences := strings.Split(recpe, ".")
 
-	
-// }
+	for i := 0; i < len(sentences); i++{
+		fmt.Println(sentences[i])
+	}
+}
 
-// func fart() {
-// 	bot := NewBartenderBot()
+func (b *BartenderBot) Start() {
+	for {
+		prefferedDrink := GetUserInput()
+		if prefferedDrink == "nothing"{
+			break
+		}
 
-// 	bot.Start()
-// }
+		SetUrl(prefferedDrink)
+		GetResultFromDrinksApi(SetUrl(prefferedDrink))
+	}
+}
+
+func main() {
+	bot := NewBartenderBot()
+	bot.Start()
+}
