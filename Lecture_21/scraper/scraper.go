@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"io"
 )
 
 const(
@@ -16,6 +17,11 @@ const(
 
 type Stories struct{
 	Stories []Story `json:"top_stories"`
+}
+
+func (s *Stories) ToJSON(w io.Writer) error {
+	e := json.NewEncoder(w)
+	return e.Encode(s)
 }
 
 type Story struct{
@@ -96,7 +102,7 @@ func (s *Stories)GenerateDetailsUrls(storyIdList []int) []string{
 	return urls
 }
 
-func (s Stories)GetDetailsFromTopStories(urls []string) []Story{
+func (s Stories)GetDetailsFromTopStories(urls []string) *Stories{
 	httpClient := httpClient()
 	stories := NewStories()
 
@@ -124,8 +130,7 @@ func (s Stories)GetDetailsFromTopStories(urls []string) []Story{
 			log.Fatal(jsonErr)
 		}
 
-		
 		stories.Stories = append(stories.Stories, *story)
 	}	
-	return stories.Stories
+	return stories
 }
