@@ -13,6 +13,10 @@ import (
 	"time"
 )
 
+const(
+	cocktailDbApiUrl string = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="
+)
+
 type BartenderBot struct{
 	Drinks []Drinks
 }
@@ -45,7 +49,7 @@ func GetUserInput() string{
 }
 
 func SetUrl(querryString string) *url.URL{
-	url, err := url.Parse("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=")
+	url, err := url.Parse(cocktailDbApiUrl)
 	if err != nil{
 		log.Fatal("Url format is invalid")
 	}
